@@ -1,0 +1,210 @@
+{
+  "publicationsByPerson": {
+    "personId": "3154990",
+    "page": {
+      "limit": 15,
+      "offset": 0
+    },
+    "sort": {
+      "sortBy": "DatePublished",
+      "direction": "Desc"
+    },
+    "terms": [
+      "lung cancer"
+    ],
+    "filters": {}
+  },
+  "keywordSearch": {
+    "input": {
+      "filters": {
+        "hasCTMSData": false,
+        "country": [],
+        "state": [],
+        "city": [],
+        "excludeCity": [],
+        "zipCode": [],
+        "excludeZipCode": [],
+        "excludeCountry": [],
+        "excludeState": [],
+        "exclusionTags": {
+          "privateTagIds": [],
+          "publicTagIds": [],
+          "programmaticTagIds": []
+        },
+        "intersectTags": false,
+        "peopleIds": [
+          "3154990"
+        ],
+        "trials": {
+          "minCount": null,
+          "maxCount": null,
+          "status": [],
+          "phase": [],
+          "studyType": [],
+          "sponsor": [],
+          "timeFrame": {
+            "key": "max",
+            "max": null,
+            "min": 0
+          },
+          "sponsorType": [],
+          "id": [],
+          "roles": [],
+          "biomarkers": []
+        },
+        "trialEnrollmentRate": {
+          "min": null,
+          "max": null
+        },
+        "claims": {
+          "diagnosesICD": [],
+          "diagnosesICDMinCount": null,
+          "diagnosesICDMaxCount": null,
+          "proceduresCPT": [],
+          "proceduresCPTMinCount": null,
+          "proceduresCPTMaxCount": null,
+          "timeFrame": null,
+          "showUniquePatients": true,
+          "proceduresHCPC": [],
+          "proceduresHCPCMinCount": null,
+          "brandNames": [],
+          "drugClasses": [],
+          "prescriptionsMinCount": null,
+          "prescriptionsMaxCount": null,
+          "prescriptionsTimeFrame": null,
+          "ccsr": []
+        },
+        "patientsDiversity": {
+          "race": [],
+          "ageRange": [],
+          "sex": [],
+          "raceMix": []
+        },
+        "exclusionClaims": {
+          "proceduresHCPC": [],
+          "ccsr": []
+        },
+        "tags": {
+          "privateTagIds": [],
+          "publicTagIds": [],
+          "programmaticTagIds": []
+        },
+        "specialty": [],
+        "specialtyExclusion": [],
+        "institution": [],
+        "territory": [],
+        "presentWorkInstitutions": [],
+        "pastAndPresentWorkInstitutions": [],
+        "hasSocietyAffiliation": false,
+        "indicationsSpecialtyORed": false,
+        "societyAffiliations": [],
+        "studentInstitutions": [],
+        "graduationYearRange": {
+          "min": null,
+          "max": null
+        },
+        "npi": [],
+        "isInactive": false,
+        "isIndustry": false,
+        "engagements": {
+          "minCount": null
+        },
+        "publications": {
+          "socialMediaMinCount": null,
+          "socialMediaMaxCount": null,
+          "minCount": null,
+          "maxCount": null,
+          "journal": [],
+          "type": [],
+          "isFirstOrder": false,
+          "isLastOrder": false,
+          "publicationDate": null
+        },
+        "congresses": {
+          "minCount": null,
+          "maxCount": null,
+          "name": [],
+          "organizerName": [],
+          "timeFrame": null,
+          "contributorRole": [],
+          "sessionTimeFrame": {
+            "min": 0,
+            "max": null
+          }
+        },
+        "grants": {
+          "minAmount": null,
+          "funder": []
+        },
+        "payments": {
+          "minAmount": null,
+          "maxAmount": null,
+          "company": [],
+          "drugOrDevice": [],
+          "fundingType": []
+        },
+        "referrals": {
+          "serviceLine": [],
+          "minReferralsReceived": null,
+          "minReferralsSent": null,
+          "maxReferralsReceived": null,
+          "maxReferralsSent": null
+        },
+        "designations": [],
+        "providerDiversity": {
+          "race": [],
+          "languagesSpoken": [],
+          "sex": []
+        },
+        "socialMedia": {
+          "hasLinkedin": false,
+          "hasTwitter": false
+        },
+        "digitalLeader": null,
+        "isFacultyOpinionsMember": false,
+        "isRisingStar": false,
+        "isGlobalLeader": false,
+        "isNationalLeader": false,
+        "isRegionalLeader": false,
+        "isLocalLeader": false,
+        "isPublicationLeader": false,
+        "isScholarLeader": false,
+        "isEducatorLeader": false,
+        "isTrialLeader": false,
+        "isDOLeader": false,
+        "careerLength": null,
+        "date": {
+          "min": null,
+          "max": null
+        }
+      },
+      "sortBy": {
+        "scoringFunction": null,
+        "publication": 0,
+        "microBloggingCount": 0,
+        "citation": 0,
+        "trial": 0,
+        "congress": 0,
+        "payment": 0,
+        "grant": 0,
+        "procedures": 0,
+        "diagnoses": 0,
+        "referralsReceived": 0,
+        "referralsSent": 0,
+        "patientsDiversityRank": 1,
+        "twitterFollowersCount": 0,
+        "twitterTweetCount": 0,
+        "prescriptions": 0
+      },
+      "offset": 0,
+      "searchType": "Keyword",
+      "query": [
+        "lung cancer"
+      ],
+      "pageSize": 1,
+      "language": "eng",
+      "app": "TRIAL_LANDSCAPE"
+    },
+    "enableSearchAffiliationRefactor": true
+  }
+}

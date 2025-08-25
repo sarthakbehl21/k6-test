@@ -1,0 +1,613 @@
+query KeywordSearch($input: KolSearchInput!, $enableSearchAffiliationRefactor: Boolean!) {
+  keywordSearch(search: $input) {
+    ...KolSearchResponse
+    __typename
+  }
+}
+
+fragment KolSearchResponse on KolSearchResponseDto {
+  from
+  pageSize
+  total
+  totalResultsOutsideUserSlice
+  synonyms
+  queryIntent
+  aggregations {
+    locationClaims {
+      buckets {
+        key
+        doc_count
+        __typename
+      }
+      __typename
+    }
+    location {
+      doc_count
+      current_affiliations {
+        doc_count
+        geo_hash {
+          buckets {
+            key
+            doc_count
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    geo_clustering_location {
+      doc_count
+      current_affiliations {
+        doc_count
+        geo_clustering {
+          buckets {
+            centroid {
+              lat
+              lon
+              __typename
+            }
+            doc_count
+            geohash_grids
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  results: resultsV2 {
+    __typename
+    id
+    firstName
+    lastName
+    middleName
+    firstNameEng
+    middleNameEng
+    lastNameEng
+    designations
+    languageCode
+    specialty
+    ...KolSearchPersonDtoResult
+    ...KolSearchH1DNPersonDtoResult
+  }
+  ranges {
+    publicationCount {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    citationCount {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    trialCount {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    paymentCount {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    paymentSum {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    grantCount {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    grantSum {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    congressCount {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    totalCollaborators {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    socialMediaMentions {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    procedures {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    diagnoses {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    __typename
+  }
+  normalizedRange {
+    ...DocumentScoreRangeProjection
+    __typename
+  }
+  filterCounts {
+    ...AggregationFilterCountProjection
+    __typename
+  }
+  spellSuggesterResult
+  __typename
+  suggestedFilters {
+    congresses {
+      name
+      organizerName
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment DocumentScoreRangeProjection on DocumentScoreRangeDto {
+  min
+  max
+  __typename
+}
+
+fragment ScoredDocumentResultProjection on ScoredDocumentResultDto {
+  value
+  normalizedValue
+  minValue
+  maxValue
+  percentile
+  __typename
+}
+
+fragment AggregationFilterCountProjection on AggregationFilterCountDto {
+  field
+  buckets {
+    key
+    docCount
+    __typename
+  }
+  __typename
+}
+
+fragment PersonTranslation on PersonTranslationDto {
+  firstName
+  lastName
+  fullName
+  languageCode
+  __typename
+}
+
+fragment KolSearchPersonDtoResult on KolSearchPersonDto {
+  personId
+  h1dnId
+  isFacultyOpinionsMember
+  isOutsideUsersSlice
+  isIndustry
+  isInactive
+  isSocietyMember
+  topL3Indications
+  formattedTopAffiliations @include(if: $enableSearchAffiliationRefactor) {
+    ...FormattedTopAffiliationsFragment
+    __typename
+  }
+  formattedTopTLAffiliations {
+    ...FormattedTopTLAffiliationsFragment
+    __typename
+  }
+  affiliations @skip(if: $enableSearchAffiliationRefactor) {
+    id
+    titles
+    department
+    school
+    affiliationType
+    accuracyScore
+    claimsNumbers
+    claimsStates
+    category
+    institution {
+      id
+      type
+      institutionOrgTypes {
+        orgTypeLevel1
+        __typename
+      }
+      iol {
+        id
+        proceduresCount
+        diagnosesCount
+        region
+        __typename
+      }
+      name
+      ultimateParent {
+        id
+        name
+        type
+        iol {
+          id
+          proceduresCount
+          diagnosesCount
+          region
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    isPastAffiliation
+    address {
+      id
+      street1
+      street2
+      street3
+      country
+      city
+      state
+      stateCode
+      zip
+      latitude
+      longitude
+      lat_long_precision
+      __typename
+    }
+    __typename
+  }
+  countPublications
+  countClinicalTrials
+  socialMediaMentionsTotal
+  sumPayments
+  diagnosesCount
+  proceduresCount
+  prescriptionsCount
+  patientsDiversity {
+    age {
+      count
+      range
+      __typename
+    }
+    sex {
+      count
+      value
+      __typename
+    }
+    races {
+      percent
+      race
+      __typename
+    }
+    __typename
+  }
+  providerDiversity {
+    races
+    languagesSpoken
+    sex
+    __typename
+  }
+  personTranslationEng {
+    ...PersonTranslation
+    __typename
+  }
+  personTranslation {
+    ...PersonTranslation
+    __typename
+  }
+  referralsReceivedCount
+  referralsSentCount
+  congresses
+  grants
+  sumGrants
+  grantDates
+  congressesDates
+  congressSessions {
+    id
+    name
+    role
+    __typename
+  }
+  paymentDates
+  publicationDates
+  trialDates
+  citationCount
+  citationCountAvg
+  infoRequestsResolved
+  totalWorks
+  ...ScoredDocumentDataFragment
+  programmaticTags {
+    id
+    name
+    __typename
+  }
+  twitterTweetCount
+  twitterFollowersCount
+  top1PercentileDigitalRank
+  top10PercentileDigitalRank
+  hasCTMSData
+  trialActivelyRecruitingCount
+  trialOngoingCount
+  diversityRanking
+  trialEnrollmentRate
+  __typename
+}
+
+fragment ScoredDocumentDataFragment on KolSearchPersonDto {
+  scores {
+    personId
+    normalizedRange {
+      ...DocumentScoreRangeProjection
+      __typename
+    }
+    publications {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    citations {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    trials {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    payments {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    paymentsCount {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    grants {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    grantsCount {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    congresses {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    socialMediaMentions {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    procedures {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    diagnoses {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    referralsReceived {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    referralsSent {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    prescriptions {
+      ...ScoredDocumentResultProjection
+      __typename
+    }
+    h1Score
+    __typename
+  }
+  __typename
+}
+
+fragment FormattedTopAffiliationsFragment on FormattedTopAffiliationsDto {
+  locationsToDisplay {
+    ...AffiliationLocationBlockFragment
+    __typename
+  }
+  hasAffiliationMatchingFilter
+  isSeeingPatients
+  hasAboveTheLineAffiliations
+  formattedRelevantLocations {
+    ...AffiliationLocationBlockFragment
+    __typename
+  }
+  hasPastAffiliations
+  __typename
+}
+
+fragment AffiliationLocationBlockFragment on AffiliationLocationBlockDto {
+  location
+  data {
+    parentInstitution {
+      id
+      name
+      iol {
+        id
+        __typename
+      }
+      address {
+        id
+        latitude
+        longitude
+        latLongPrecision
+        __typename
+      }
+      __typename
+    }
+    childrenAffiliation {
+      id
+      institution {
+        id
+        address {
+          id
+          latitude
+          longitude
+          latLongPrecision
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment FormattedTopTLAffiliationsFragment on FormattedTopTLAffiliationsDto {
+  locationsToDisplay {
+    ...TLWeightedAffiliationLocationBlockFragment
+    __typename
+  }
+  hasAffiliationMatchingFilter
+  isSeeingPatients
+  hasAboveTheLineAffiliations
+  formattedRelevantLocations {
+    ...TLWeightedAffiliationLocationBlockFragment
+    __typename
+  }
+  hasPastAffiliations
+  isPerformingTrials
+  __typename
+}
+
+fragment TLWeightedAffiliationLocationBlockFragment on TLWeightedAffiliationLocationBlockDto {
+  location
+  data {
+    parentInstitution {
+      id
+      name
+      iol {
+        id
+        __typename
+      }
+      address {
+        id
+        latitude
+        longitude
+        latLongPrecision
+        __typename
+      }
+      __typename
+    }
+    childrenAffiliation {
+      id
+      institution {
+        id
+        name
+        iol {
+          id
+          __typename
+        }
+        address {
+          id
+          latitude
+          longitude
+          latLongPrecision
+          __typename
+        }
+        __typename
+      }
+      isSeeingPatients
+      isPerformingTrials
+      institutionHasTrials
+      tlAffiliationScore
+      __typename
+    }
+    parentAffiliation {
+      id
+      institution {
+        id
+        name
+        iol {
+          id
+          __typename
+        }
+        address {
+          id
+          latitude
+          longitude
+          latLongPrecision
+          __typename
+        }
+        __typename
+      }
+      isSeeingPatients
+      isPerformingTrials
+      institutionHasTrials
+      tlAffiliationScore
+      __typename
+    }
+    tlAffiliationScore
+    __typename
+  }
+  tlAffiliationScore
+  __typename
+}
+
+fragment KolSearchH1DNPersonDtoResult on KolSearchH1DNPersonDto {
+  formattedTopAffiliations @include(if: $enableSearchAffiliationRefactor) {
+    ...FormattedTopH1dnAffiliationsFragment
+    __typename
+  }
+  affiliations @skip(if: $enableSearchAffiliationRefactor) {
+    id
+    personId
+    projectId
+    type
+    institutionName: institution
+    code
+    graduationYear
+    titles
+    h1dnId
+    orgName
+    line1
+    line2
+    line3
+    locality
+    region
+    country
+    postalCode
+    emails
+    phoneNumbers {
+      number
+      ext
+      __typename
+    }
+    faxNumbers {
+      number
+      ext
+      __typename
+    }
+    department
+    role
+    title
+    startDate
+    endDate
+    __typename
+  }
+  hasCTMSData
+  isInactive
+  isIndustry
+  isSocietyMember
+  __typename
+}
+
+fragment FormattedTopH1dnAffiliationsFragment on FormattedTopAffiliationsH1dnDto {
+  affiliation {
+    institutionName
+    titles
+    locality
+    region
+    country
+    postalCode
+    __typename
+  }
+  pastAffiliationsText
+  pastWorkAffiliations {
+    length
+    __typename
+  }
+  __typename
+}

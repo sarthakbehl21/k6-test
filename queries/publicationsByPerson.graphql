@@ -1,0 +1,45 @@
+query PublicationsByPerson($filters: PublicationFilterInput, $page: PageInput!, $personId: String!, $sort: PublicationsSortInput!, $terms: [String!]) {
+  publicationsByPerson(
+    filters: $filters
+    page: $page
+    personId: $personId
+    sort: $sort
+    terms: $terms
+  ) {
+    count
+    items {
+      id
+      title
+      datePublished
+      masterInitialDate
+      publicationTypes
+      journal
+      citationCount
+      altmetrics {
+        microBloggingCount
+        __typename
+      }
+      authors {
+        id
+        firstName
+        lastName
+        inProject
+        __typename
+      }
+      freeTextAuthors {
+        order
+        initials
+        firstName
+        lastName
+        suffix
+        collectiveName
+        __typename
+      }
+      isFacultyOpinionsRecommended
+      DOI
+      keywords
+      __typename
+    }
+    __typename
+  }
+}
