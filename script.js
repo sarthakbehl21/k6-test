@@ -175,9 +175,10 @@ export default function (token) {
 export function handleSummary(data) {
   console.log('📊 Test finished. Generating report...');
 
-  function safe(val) {
+  // Convert ms → seconds safely
+  function safeSeconds(val) {
     return val !== undefined && val !== null && !isNaN(val)
-      ? val.toFixed(2)
+      ? (val / 1000).toFixed(2)
       : 'N/A';
   }
 
@@ -193,54 +194,53 @@ Total iterations: ${m.iterations?.values?.count || 'N/A'}
 
 High-level Metrics
 -----------------------------------
-Failure rate: ${safe(m.http_req_failed?.values?.rate)}
-Requests per second: ${safe(m.http_reqs?.values?.rate)}
+Failure rate: ${m.http_req_failed?.values?.rate?.toFixed(4) || 'N/A'}
+Requests per second: ${m.http_reqs?.values?.rate?.toFixed(2) || 'N/A'}
 Total requests: ${m.http_reqs?.values?.count || 'N/A'}
-Duration (avg): ${safe(m.http_req_duration?.values?.avg)} ms
-Duration (p95): ${safe(m.http_req_duration?.values?.['p(95)'])} ms
-Duration (p99): ${safe(m.http_req_duration?.values?.['p(99)'])} ms
+Duration (avg): ${safeSeconds(m.http_req_duration?.values?.avg)} s
+Duration (p95): ${safeSeconds(m.http_req_duration?.values?.['p(95)'])} s
+Duration (p99): ${safeSeconds(m.http_req_duration?.values?.['p(99)'])} s
 
 Custom Metrics
 -----------------------------------
-Auth Duration (p95): ${safe(m.auth_duration?.values?.['p(95)'])} ms
+Auth Duration (p95): ${safeSeconds(m.auth_duration?.values?.['p(95)'])} s
 GraphQL Errors: ${m.graphql_error_count?.values?.count || 0}
 
 Detailed HTTP Timings (avg)
 -----------------------------------
-DNS lookup: ${safe(m.http_req_blocked?.values?.avg)} ms
-TCP connect: ${safe(m.http_req_connecting?.values?.avg)} ms
-TLS handshake: ${safe(m.http_req_tls_handshaking?.values?.avg)} ms
-TTFB (waiting): ${safe(m.http_req_waiting?.values?.avg)} ms
-Sending: ${safe(m.http_req_sending?.values?.avg)} ms
-Receiving: ${safe(m.http_req_receiving?.values?.avg)} ms
+DNS lookup: ${safeSeconds(m.http_req_blocked?.values?.avg)} s
+TCP connect: ${safeSeconds(m.http_req_connecting?.values?.avg)} s
+TLS handshake: ${safeSeconds(m.http_req_tls_handshaking?.values?.avg)} s
+TTFB (waiting): ${safeSeconds(m.http_req_waiting?.values?.avg)} s
+Sending: ${safeSeconds(m.http_req_sending?.values?.avg)} s
+Receiving: ${safeSeconds(m.http_req_receiving?.values?.avg)} s
 
 Data Transfer
 -----------------------------------
-Data sent: ${safe(m.data_sent?.values?.count)} bytes
-Data received: ${safe(m.data_received?.values?.count)} bytes
+Data sent: ${(m.data_sent?.values?.count || 0).toFixed(0)} bytes
+Data received: ${(m.data_received?.values?.count || 0).toFixed(0)} bytes
 
 Iteration Durations
 -----------------------------------
-Avg: ${safe(m.iteration_duration?.values?.avg)} ms
-p95: ${safe(m.iteration_duration?.values?.['p(95)'])} ms
-p99: ${safe(m.iteration_duration?.values?.['p(99)'])} ms
+Avg: ${safeSeconds(m.iteration_duration?.values?.avg)} s
+p95: ${safeSeconds(m.iteration_duration?.values?.['p(95)'])} s
+p99: ${safeSeconds(m.iteration_duration?.values?.['p(99)'])} s
 
 GraphQL Response Times (p95 per query)
 -----------------------------------
 `;
 
-  // Add per-query GraphQL response times
+  // Add per-query GraphQL response times in seconds
   for (const queryName of queries.map((q) => q.name)) {
     const metricName = `graphql_response_time{query=${queryName}}`;
     const metric = data.metrics[metricName];
     if (metric) {
-      summary += `${queryName}: ${safe(metric.values['p(95)'])} ms\n`;
+      summary += `${queryName}: ${safeSeconds(metric.values['p(95)'])} s\n`;
     }
   }
 
   console.log(summary);
 
-  // Also export full raw JSON if you want to process later
   return {
     'summary.txt': summary,
     'summary.json': JSON.stringify(data, null, 2),
