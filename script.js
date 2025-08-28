@@ -199,7 +199,7 @@ Requests per second: ${m.http_reqs?.values?.rate?.toFixed(2) || 'N/A'}
 Total requests: ${m.http_reqs?.values?.count || 'N/A'}
 Duration (avg): ${safeSeconds(m.http_req_duration?.values?.avg)} s
 Duration (p95): ${safeSeconds(m.http_req_duration?.values?.['p(95)'])} s
-Duration (p99): ${safeSeconds(m.http_req_duration?.values?.['p(99)'])} s
+Duration (p90): ${safeSeconds(m.http_req_duration?.values?.['p(90)'])} s
 
 Custom Metrics
 -----------------------------------
@@ -224,7 +224,7 @@ Iteration Durations
 -----------------------------------
 Avg: ${safeSeconds(m.iteration_duration?.values?.avg)} s
 p95: ${safeSeconds(m.iteration_duration?.values?.['p(95)'])} s
-p99: ${safeSeconds(m.iteration_duration?.values?.['p(99)'])} s
+p90: ${safeSeconds(m.iteration_duration?.values?.['p(90)'])} s
 
 GraphQL Response Times (p95 per query)
 -----------------------------------
